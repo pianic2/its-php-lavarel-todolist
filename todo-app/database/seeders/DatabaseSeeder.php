@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\TaskList;
+use App\Models\Task;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -21,5 +23,19 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Create sample lists and tasks for local development
+        $personal = TaskList::create([
+            'name' => 'Personal',
+            'description' => 'Personal tasks',
+        ]);
+
+        $work = TaskList::create([
+            'name' => 'Work',
+            'description' => 'Work related tasks',
+        ]);
+
+        Task::factory()->count(3)->forList($personal->id)->create();
+        Task::factory()->count(4)->forList($work->id)->create();
     }
 }
