@@ -1,0 +1,217 @@
+/* =========================================================
+   PROJECT.CSS
+   Layer: Override + Extensions su core.min.css
+   Obiettivo: Minimal TODO App (Laravel)
+   ========================================================= */
+
+/* =========================
+   1. TOKENS (override soft)
+   ========================= */
+
+:root {
+  /* colori principali */
+  --color-bg: #0f172a;
+  --color-surface: #111827;
+  --color-surface-light: #1f2933;
+
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+
+  --color-text: #e5e7eb;
+  --color-text-muted: #9ca3af;
+
+  --color-border: #1f2937;
+  --color-danger: #ef4444;
+  --color-success: #22c55e;
+
+  /* spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+
+  /* radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  /* shadow */
+  --shadow-soft: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+
+/* =========================
+   2. GLOBAL OVERRIDE
+   ========================= */
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+a {
+  color: var(--color-primary);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+
+/* =========================
+   3. LAYOUT
+   ========================= */
+
+.app-container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-xl);
+}
+
+.app-header {
+  margin-bottom: var(--space-xl);
+}
+
+.app-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+
+/* =========================
+   4. CARD / SURFACE
+   ========================= */
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+
+/* =========================
+   5. INPUT / FORM
+   ========================= */
+
+.input {
+  width: 100%;
+  padding: var(--space-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-light);
+  color: var(--color-text);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+
+/* =========================
+   6. BUTTONS
+   ========================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+
+  border: none;
+  cursor: pointer;
+
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: white;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.btn-ghost:hover {
+  color: var(--color-text);
+}
+
+
+/* =========================
+   7. TODO LIST
+   ========================= */
+
+.todo-list {
+  margin-top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: var(--space-md);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface-light);
+  border: 1px solid var(--color-border);
+}
+
+.todo-item.completed {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.todo-text {
+  flex: 1;
+}
+
+.todo-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+
+/* =========================
+   8. EMPTY STATE
+   ========================= */
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--color-text-muted);
+}
+
+
+/* =========================
+   9. UTILITY OVERRIDE
+   ========================= */
+
+/* override eventuali utility aggressive di core */
+.text-muted {
+  color: var(--color-text-muted) !important;
+}
+
+.hidden {
+  display: none !important;
+}
