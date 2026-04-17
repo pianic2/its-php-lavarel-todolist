@@ -45,11 +45,22 @@ class ListController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(TaskList $list)
+    public function show(Request $request, TaskList $list)
     {
-        $tasks = $list->tasks()->with('list')->orderBy('created_at', 'desc')->paginate(12);
+        $currentFilter = $this->taskFilter($request);
+        $tasksQuery = $list->tasks()->with('list')->orderBy('created_at', 'desc');
 
-        return view('lists.show', compact('list', 'tasks'));
+        if ($currentFilter === 'open') {
+            $tasksQuery->pending();
+        }
+
+        if ($currentFilter === 'done') {
+            $tasksQuery->completed();
+        }
+
+        $tasks = $tasksQuery->paginate(12)->withQueryString();
+
+        return view('lists.show', compact('list', 'tasks', 'currentFilter'));
     }
 
     /**
@@ -84,5 +95,12 @@ class ListController extends Controller
         $list->delete();
 
         return redirect()->route('lists.index')->with('success', 'Lista eliminata.');
+    }
+
+    private function taskFilter(Request $request): string
+    {
+        $filter = $request->query('filter', 'all');
+
+        return in_array($filter, ['all', 'open', 'done'], true) ? $filter : 'all';
     }
 }

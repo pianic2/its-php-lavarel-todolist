@@ -55,4 +55,58 @@ class TaskListOwnershipTest extends TestCase
 
         $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
     }
+
+    public function test_list_show_filters_open_tasks(): void
+    {
+        $list = TaskList::factory()->create();
+        Task::factory()->forList($list->id)->create([
+            'title' => 'Nota ancora aperta',
+            'is_completed' => false,
+        ]);
+        Task::factory()->forList($list->id)->create([
+            'title' => 'Nota gia completata',
+            'is_completed' => true,
+        ]);
+
+        $this->get(route('lists.show', ['list' => $list, 'filter' => 'open']))
+            ->assertOk()
+            ->assertSee('Nota ancora aperta')
+            ->assertDontSee('Nota gia completata');
+    }
+
+    public function test_list_show_filters_done_tasks(): void
+    {
+        $list = TaskList::factory()->create();
+        Task::factory()->forList($list->id)->create([
+            'title' => 'Nota ancora aperta',
+            'is_completed' => false,
+        ]);
+        Task::factory()->forList($list->id)->create([
+            'title' => 'Nota gia completata',
+            'is_completed' => true,
+        ]);
+
+        $this->get(route('lists.show', ['list' => $list, 'filter' => 'done']))
+            ->assertOk()
+            ->assertSee('Nota gia completata')
+            ->assertDontSee('Nota ancora aperta');
+    }
+
+    public function test_invalid_list_filter_falls_back_to_all_tasks(): void
+    {
+        $list = TaskList::factory()->create();
+        Task::factory()->forList($list->id)->create([
+            'title' => 'Nota ancora aperta',
+            'is_completed' => false,
+        ]);
+        Task::factory()->forList($list->id)->create([
+            'title' => 'Nota gia completata',
+            'is_completed' => true,
+        ]);
+
+        $this->get(route('lists.show', ['list' => $list, 'filter' => 'banana']))
+            ->assertOk()
+            ->assertSee('Nota ancora aperta')
+            ->assertSee('Nota gia completata');
+    }
 }

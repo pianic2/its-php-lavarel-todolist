@@ -15,10 +15,24 @@
             </div>
         </div>
 
+        @include('tasks._filters', [
+            'list' => $list,
+            'currentFilter' => $currentFilter ?? 'all',
+            'filterRoute' => 'lists.show',
+        ])
+
         @include('tasks._notes-grid', [
             'tasks' => $tasks,
-            'emptyTitle' => 'Questa lista è vuota',
-            'emptyDescription' => 'Crea una nota dentro questa lista.',
+            'emptyTitle' => match ($currentFilter ?? 'all') {
+                'open' => 'Nessuna nota da fare',
+                'done' => 'Nessuna nota completata',
+                default => 'Questa lista è vuota',
+            },
+            'emptyDescription' => match ($currentFilter ?? 'all') {
+                'open' => 'Qui appariranno le note ancora aperte.',
+                'done' => 'Completa una nota per ritrovarla qui.',
+                default => 'Crea una nota dentro questa lista.',
+            },
         ])
     </section>
 @endsection

@@ -23,10 +23,24 @@
             </div>
         @endif
 
+        @include('tasks._filters', [
+            'list' => $list,
+            'currentFilter' => $currentFilter ?? 'all',
+            'filterRoute' => 'lists.tasks.index',
+        ])
+
         @include('tasks._notes-grid', [
             'tasks' => $tasks,
-            'emptyTitle' => 'Nessuna nota disponibile',
-            'emptyDescription' => 'Crea una nota: il sistema continuerà a funzionare anche senza liste associate.',
+            'emptyTitle' => match ($currentFilter ?? 'all') {
+                'open' => 'Nessuna nota da fare',
+                'done' => 'Nessuna nota completata',
+                default => 'Nessuna nota disponibile',
+            },
+            'emptyDescription' => match ($currentFilter ?? 'all') {
+                'open' => 'Qui appariranno le note ancora aperte.',
+                'done' => 'Completa una nota per ritrovarla qui.',
+                default => 'Crea una nota: il sistema continuerà a funzionare anche senza liste associate.',
+            },
         ])
     </section>
 @endsection

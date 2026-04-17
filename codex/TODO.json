@@ -184,19 +184,19 @@
     {
       "id": "phase_5_filters",
       "title": "Filtering & UX",
-      "status": "pending",
+      "status": "done",
       "tasks": [
 
         {
           "id": "implement_filters",
           "title": "Add task filters (all/open/done)",
           "category": "runtime",
-          "status": "pending",
+          "status": "done",
           "phase": "implementation",
           "estimate": "S",
           "criticality": 2,
           "dependency_unlock": 2,
-          "description": "Filter tasks via query param"
+          "description": "Filter tasks via query param, keep pagination query string, and show active filter tabs"
         }
 
       ]

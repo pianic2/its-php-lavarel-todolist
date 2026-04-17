@@ -45,7 +45,7 @@
     </div>
 
     <div class="u-mt-4">
-        {{ $tasks->links() }}
+        {{ $tasks->withQueryString()->links() }}
     </div>
 @else
     <div class="card note-empty">

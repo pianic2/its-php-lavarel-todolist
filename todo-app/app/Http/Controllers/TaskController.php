@@ -11,11 +11,22 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(TaskList $list)
+    public function index(Request $request, TaskList $list)
     {
-        $tasks = $list->tasks()->with('list')->orderBy('created_at', 'desc')->paginate(12);
+        $currentFilter = $this->taskFilter($request);
+        $tasksQuery = $list->tasks()->with('list')->orderBy('created_at', 'desc');
 
-        return view('tasks.index', compact('list', 'tasks'));
+        if ($currentFilter === 'open') {
+            $tasksQuery->pending();
+        }
+
+        if ($currentFilter === 'done') {
+            $tasksQuery->completed();
+        }
+
+        $tasks = $tasksQuery->paginate(12)->withQueryString();
+
+        return view('tasks.index', compact('list', 'tasks', 'currentFilter'));
     }
 
     /**
@@ -104,5 +115,12 @@ class TaskController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    private function taskFilter(Request $request): string
+    {
+        $filter = $request->query('filter', 'all');
+
+        return in_array($filter, ['all', 'open', 'done'], true) ? $filter : 'all';
     }
 }

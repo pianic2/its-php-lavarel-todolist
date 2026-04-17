@@ -587,6 +587,13 @@ body {
   align-items: center;
 }
 
+.task-filters {
+  display: inline-flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 .notes-board {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
