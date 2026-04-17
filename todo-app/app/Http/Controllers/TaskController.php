@@ -11,94 +11,90 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(TaskList $list)
     {
-        $tasks = Task::with('list')->orderBy('created_at', 'desc')->paginate(12);
+        $tasks = $list->tasks()->with('list')->orderBy('created_at', 'desc')->paginate(12);
 
-        return view('tasks.index', compact('tasks'));
+        return view('tasks.index', compact('list', 'tasks'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(TaskList $list)
     {
         $task = new Task([
             'is_completed' => false,
+            'list_id' => $list->id,
         ]);
-        $lists = TaskList::orderBy('name')->get();
 
-        return view('tasks.create', compact('task', 'lists'));
+        return view('tasks.create', compact('list', 'task'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, TaskList $list)
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'is_completed' => 'nullable|boolean',
-            'list_id' => 'nullable|integer|exists:lists,id'
         ]);
 
-        Task::create($data + ['is_completed' => $request->boolean('is_completed')]);
+        $list->tasks()->create($data + ['is_completed' => $request->boolean('is_completed')]);
 
-        return redirect()->route('tasks.index')->with('success', 'Nota creata.');
+        return redirect()->route('lists.show', $list)->with('success', 'Nota creata.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(TaskList $list, Task $task)
     {
         $task->load('list');
 
-        return view('tasks.show', compact('task'));
+        return view('tasks.show', compact('list', 'task'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Task $task)
+    public function edit(TaskList $list, Task $task)
     {
-        $lists = TaskList::orderBy('name')->get();
-
-        return view('tasks.edit', compact('task', 'lists'));
+        return view('tasks.edit', compact('list', 'task'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, TaskList $list, Task $task)
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'is_completed' => 'nullable|boolean',
-            'list_id' => 'nullable|integer|exists:lists,id'
         ]);
 
         $task->update($data + ['is_completed' => $request->boolean('is_completed')]);
 
-        return redirect()->route('tasks.index')->with('success', 'Nota aggiornata.');
+        return redirect()->route('lists.show', $list)->with('success', 'Nota aggiornata.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(TaskList $list, Task $task)
     {
         $task->delete();
 
-        return redirect()->route('tasks.index')->with('success', 'Nota eliminata.');
+        return redirect()->route('lists.show', $list)->with('success', 'Nota eliminata.');
     }
 
     /**
      * Toggle completion state for a task.
      */
-    public function toggle(Request $request, Task $task)
+    public function toggle(Request $request, TaskList $list, Task $task)
     {
         $task->is_completed = !$task->is_completed;
         $task->save();

@@ -17,7 +17,7 @@
             <div class="card__body">
                 <div>
                     <h3 class="card__title">Lista</h3>
-                    <p class="card__description">{{ $task->list?->name ?? 'Senza lista' }}</p>
+                    <p class="card__description">{{ $task->list->name }}</p>
                 </div>
 
                 @if ($task->description)
@@ -30,16 +30,16 @@
                 <div>
                     <h3 class="card__title">Informazioni</h3>
                     <p class="card__description">ID nota: {{ $task->id }}</p>
-                    <p class="card__description">ID lista: {{ $task->list_id ?? 'Nessuna lista' }}</p>
+                    <p class="card__description">ID lista: {{ $task->list_id }}</p>
                     <p class="card__description">Creata il: {{ $task->created_at?->format('d/m/Y H:i') }}</p>
                     <p class="card__description">Aggiornata il: {{ $task->updated_at?->format('d/m/Y H:i') }}</p>
                 </div>
             </div>
 
             <div class="card__footer">
-                <a href="{{ route('tasks.index') }}" class="button button--ghost">Indietro</a>
-                <a href="{{ route('tasks.edit', $task) }}" class="button button--outline">Modifica</a>
-                <form method="POST" action="{{ route('tasks.toggle', $task) }}">
+                <a href="{{ route('lists.show', $list) }}" class="button button--ghost">Indietro</a>
+                <a href="{{ route('lists.tasks.edit', [$list, $task]) }}" class="button button--outline">Modifica</a>
+                <form method="POST" action="{{ route('lists.tasks.toggle', [$list, $task]) }}">
                     @csrf
                     @method('PATCH')
                     <button type="submit" class="button button--secondary">

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Task;
+use App\Models\TaskList;
 
 class TaskFactory extends Factory
 {
@@ -18,7 +19,7 @@ class TaskFactory extends Factory
             'title' => $this->faker->sentence(3),
             'description' => $this->faker->optional()->paragraph(),
             'is_completed' => $this->faker->boolean(20),
-            'list_id' => null,
+            'list_id' => TaskList::factory(),
         ];
     }
 

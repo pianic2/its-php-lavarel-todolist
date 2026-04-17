@@ -443,6 +443,8 @@ body {
 
 .app-sidebar__actions {
   display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
 .app-eyebrow {

@@ -5,7 +5,7 @@
         <div class="u-mb-4">
             <p class="app-eyebrow">Nuova lista</p>
             <h2>Crea una lista</h2>
-            <p class="u-text-muted">Le note potranno essere raggruppate qui, ma il sistema continuerà a funzionare anche senza associazioni.</p>
+            <p class="u-text-muted">Crea una lista: da qui potrai aggiungere note associate.</p>
         </div>
 
         @include('lists._form', [

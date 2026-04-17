@@ -40,33 +40,8 @@
     </div>
 
     <div class="form__group">
-        <label for="list_id" class="form__label">Lista</label>
-        @if (($lists ?? collect())->isNotEmpty())
-            <select
-                id="list_id"
-                name="list_id"
-                class="form__select @error('list_id') form__select--error @enderror"
-            >
-                <option value="">Nessuna lista</option>
-                @foreach ($lists as $list)
-                    <option value="{{ $list->id }}" {{ (string) old('list_id', $task->list_id ?? '') === (string) $list->id ? 'selected' : '' }}>
-                        {{ $list->name }}
-                    </option>
-                @endforeach
-            </select>
-            <p class="form__hint">Fallback incluso: puoi salvare la nota anche senza assegnarla a una lista.</p>
-        @else
-            <input type="hidden" name="list_id" value="">
-            <div class="alert alert--warning">
-                <div class="alert__content">
-                    <div class="alert__title">Nessuna lista disponibile</div>
-                    <div class="alert__description">La nota verrà salvata senza lista. Potrai associarla più tardi.</div>
-                </div>
-            </div>
-        @endif
-        @error('list_id')
-            <p class="form__error">{{ $message }}</p>
-        @enderror
+        <span class="form__label">Lista</span>
+        <p class="form__hint">{{ $list->name }}</p>
     </div>
 
     <div class="form__group">
@@ -90,7 +65,7 @@
     </div>
 
     <div class="form__actions">
-        <a href="{{ route('tasks.index') }}" class="button button--ghost">Annulla</a>
+        <a href="{{ route('lists.show', $list) }}" class="button button--ghost">Annulla</a>
         <button type="submit" class="button button--primary">
             {{ $submitLabel ?? 'Salva nota' }}
         </button>

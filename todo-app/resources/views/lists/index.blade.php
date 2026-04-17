@@ -6,7 +6,7 @@
             <div>
                 <p class="app-eyebrow">Organizzazione</p>
                 <h2>Tutte le liste</h2>
-                <p class="u-text-muted">Ogni lista organizza le note. Se una lista non contiene note, resta comunque accessibile come fallback strutturale.</p>
+                <p class="u-text-muted">Ogni lista organizza le note. Una nota nasce sempre dentro una lista.</p>
             </div>
         </div>
 
@@ -42,7 +42,7 @@
                         <div class="note-card__actions">
                             <a href="{{ route('lists.show', $list) }}" class="button button--secondary button--sm">Apri</a>
                             <a href="{{ route('lists.edit', $list) }}" class="button button--outline button--sm">Modifica</a>
-                            <form method="POST" action="{{ route('lists.destroy', $list) }}" onsubmit="return confirm('Eliminare questa lista? Le note resteranno senza lista se il database lo consente.')">
+                            <form method="POST" action="{{ route('lists.destroy', $list) }}" onsubmit="return confirm('Eliminare questa lista? Verranno eliminate anche le note associate.')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="button button--danger button--sm">Elimina</button>
@@ -59,7 +59,7 @@
             <div class="card note-empty">
                 <div class="card__body">
                     <h3 class="card__title">Nessuna lista disponibile</h3>
-                    <p class="card__description">Puoi iniziare creando una lista oppure continuare a gestire le note senza organizzazione.</p>
+                    <p class="card__description">Crea una lista per poter aggiungere la prima nota.</p>
                 </div>
             </div>
         @endif

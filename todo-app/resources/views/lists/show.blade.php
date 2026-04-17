@@ -11,14 +11,14 @@
 
             <div class="notes-page__actions u-inline-flex u-gap-2">
                 <a href="{{ route('lists.edit', $list) }}" class="button button--outline">Modifica lista</a>
-                <a href="{{ route('tasks.create') }}" class="button button--primary">Nuova nota</a>
+                <a href="{{ route('lists.tasks.create', $list) }}" class="button button--primary">Nuova nota</a>
             </div>
         </div>
 
         @include('tasks._notes-grid', [
             'tasks' => $tasks,
             'emptyTitle' => 'Questa lista è vuota',
-            'emptyDescription' => 'Crea una nota e, se necessario, assegnala a questa lista dal modulo della nota.',
+            'emptyDescription' => 'Crea una nota dentro questa lista.',
         ])
     </section>
 @endsection

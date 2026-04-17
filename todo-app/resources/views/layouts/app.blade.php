@@ -48,6 +48,7 @@
                 </div>
 
                 <div class="app-sidebar__actions">
+                    <a href="{{ route('lists.index') }}" class="button button--secondary button--sm u-w-full">Tutte le liste</a>
                     <a href="{{ route('lists.create') }}" class="button button--primary button--sm u-w-full">Nuova lista</a>
                 </div>
 
@@ -67,6 +68,15 @@
             </aside>
 
             <main class="app-main">
+                @if (session('warning'))
+                    <div class="alert alert--warning u-mb-4">
+                        <div class="alert__content">
+                            <div class="alert__title">Attenzione</div>
+                            <div class="alert__description">{{ session('warning') }}</div>
+                        </div>
+                    </div>
+                @endif
+
                 @yield('content')
             </main>
         </div>

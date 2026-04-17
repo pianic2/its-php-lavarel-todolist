@@ -6,11 +6,11 @@
             <div>
                 <p class="app-eyebrow">Bacheca</p>
                 <h2>Tutte le note</h2>
-                <p class="u-text-muted">Le note vengono mostrate qui. Se una lista manca, il fallback resta su questa vista generale.</p>
+                <p class="u-text-muted">Lista: {{ $list->name }}</p>
             </div>
 
             <div class="notes-page__actions">
-                <a href="{{ route('tasks.create') }}" class="button button--primary">Nuova nota</a>
+                <a href="{{ route('lists.tasks.create', $list) }}" class="button button--primary">Nuova nota</a>
             </div>
         </div>
 

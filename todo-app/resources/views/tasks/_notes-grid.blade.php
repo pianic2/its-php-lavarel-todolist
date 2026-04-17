@@ -11,7 +11,7 @@
 
                     <div>
                         <h3 class="card__title note-card__title">
-                            <a href="{{ route('tasks.show', $task) }}">{{ $task->title }}</a>
+                            <a href="{{ route('lists.tasks.show', [$task->list, $task]) }}">{{ $task->title }}</a>
                         </h3>
                         <p class="card__description note-card__description">
                             {{ \Illuminate\Support\Str::words($task->description ?: 'Nessun contenuto. Questa nota usa un fallback pulito per restare leggibile.', 18, '…') }}
@@ -23,7 +23,7 @@
                     <small class="u-text-muted">{{ $task->created_at?->format('d/m/Y H:i') }}</small>
 
                     <div class="note-card__actions">
-                        <form method="POST" action="{{ route('tasks.toggle', $task) }}">
+                        <form method="POST" action="{{ route('lists.tasks.toggle', [$task->list, $task]) }}">
                             @csrf
                             @method('PATCH')
                             <button type="submit" class="button button--secondary button--sm">
@@ -31,9 +31,9 @@
                             </button>
                         </form>
 
-                        <a href="{{ route('tasks.edit', $task) }}" class="button button--outline button--sm">Modifica</a>
+                        <a href="{{ route('lists.tasks.edit', [$task->list, $task]) }}" class="button button--outline button--sm">Modifica</a>
 
-                        <form method="POST" action="{{ route('tasks.destroy', $task) }}" onsubmit="return confirm('Eliminare questa nota?')">
+                        <form method="POST" action="{{ route('lists.tasks.destroy', [$task->list, $task]) }}" onsubmit="return confirm('Eliminare questa nota?')">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="button button--danger button--sm">Elimina</button>
