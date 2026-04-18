@@ -41,6 +41,8 @@ return [
 
     'debug' => (bool) env('APP_DEBUG', false),
 
+    'demo_read_only' => (bool) env('DEMO_READ_ONLY', false),
+
     /*
     |--------------------------------------------------------------------------
     | Application URL

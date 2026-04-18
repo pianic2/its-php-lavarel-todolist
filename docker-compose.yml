@@ -4,7 +4,9 @@ services:
       context: ./php
     container_name: laravel_app
     working_dir: /var/www/html
-    user: "${UID}:${GID}"
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    env_file:
+      - .env.docker
     volumes:
       - ./todo-app:/var/www/html:delegated
     ports:
@@ -17,11 +19,8 @@ services:
     image: mysql:8.0
     container_name: laravel_db
     restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: laravel
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: laravel
+    env_file:
+      - .env.docker
     ports:
       - "3306:3306"
     volumes:
@@ -31,13 +30,13 @@ services:
     image: phpmyadmin:latest
     container_name: laravel_phpmyadmin
     restart: unless-stopped
+    env_file:
+      - .env.docker
     depends_on:
       - db
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
-      PMA_USER: root
-      PMA_PASSWORD: root
     ports:
       - "8080:80"
 

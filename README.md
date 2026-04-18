@@ -120,6 +120,7 @@ La demo live esegue automaticamente:
 - build degli asset Vite;
 - migration Laravel;
 - seed dei dati demo;
+- blocco delle scritture pubbliche in modalita' sola lettura;
 - avvio dell'applicazione su porta cloud.
 
 Per pubblicare la demo su Render:
@@ -129,7 +130,7 @@ Per pubblicare la demo su Render:
 3. Avviare il deploy.
 4. Copiare l'URL pubblico generato da Render e aggiornare `APP_URL` in `render.yaml`.
 
-Nota: lo script di avvio genera automaticamente una `APP_KEY` Laravel valida se la variabile non e' presente o se il provider cloud ne genera una in formato non compatibile.
+Nota: la demo pubblica e' configurata in sola lettura tramite `DEMO_READ_ONLY=true`, cosi' i visitatori possono navigare il progetto senza modificare o cancellare dati.
 
 ## Struttura del repository
 
@@ -243,6 +244,14 @@ Prerequisiti:
 - Docker
 - Docker Compose
 
+Preparare le variabili locali Docker:
+
+```bash
+cp .env.docker.example .env.docker
+```
+
+Aggiornare `.env.docker` con valori locali personali. Il file `.env.docker` e' ignorato da Git e non deve essere pubblicato.
+
 Avvio dei container:
 
 ```bash
@@ -261,15 +270,7 @@ phpMyAdmin viene esposto su:
 http://127.0.0.1:8080
 ```
 
-Credenziali database configurate in `docker-compose.yml`:
-
-```text
-Database: laravel
-User: laravel
-Password: laravel
-Root password: root
-Host interno Docker: db
-```
+Le credenziali database non sono salvate nel repository: vengono lette dal file locale `.env.docker`.
 
 ## Setup applicazione
 

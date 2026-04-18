@@ -2,4 +2,5 @@ codex/
 codex
 code/TODO.json
 .env
+.env.docker
 todo-app/laravel
