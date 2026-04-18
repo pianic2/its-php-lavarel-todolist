@@ -1,5 +1,7 @@
 # Todo List Laravel - Versione 1
 
+[![Laravel CI](https://github.com/pianic2/its-php-lavarel-todolist/actions/workflows/ci.yml/badge.svg)](https://github.com/pianic2/its-php-lavarel-todolist/actions/workflows/ci.yml)
+
 Applicazione Todo List sviluppata in Laravel con interfaccia Blade e stile basato su `core.min.css`.
 
 Il progetto nasce come esercizio completo di sviluppo backend/frontend in PHP: modellazione dati, CRUD, validazione, routing annidato, UI server-rendered, filtri, stati utente e test automatici.
@@ -90,6 +92,21 @@ Sono presenti:
 - Vite
 - PHPUnit
 - Docker Compose
+- GitHub Actions CI/CD
+
+## CI/CD
+
+Il repository include una pipeline GitHub Actions in `.github/workflows/ci.yml`.
+
+La workflow viene eseguita su ogni `push` e `pull_request` verso `main` e verifica automaticamente:
+
+- installazione dipendenze PHP con Composer;
+- preparazione ambiente Laravel da `.env.example`;
+- esecuzione test automatici con `php artisan test`;
+- installazione dipendenze frontend;
+- build asset Vite con `npm run build`.
+
+Questa integrazione rende il progetto piu' adatto alla condivisione professionale, perche' ogni modifica pubblicata passa da controlli automatici riproducibili.
 
 ## Struttura del repository
 
@@ -338,6 +355,7 @@ Questo progetto puo' essere valutato positivamente per:
 - paginazione;
 - validazione lato server;
 - test automatici sui flussi principali;
+- pipeline CI/CD con GitHub Actions;
 - UI coerente e non dipendente da framework JavaScript;
 - ambiente Docker riproducibile.
 

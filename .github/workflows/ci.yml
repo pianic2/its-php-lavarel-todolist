@@ -1,0 +1,57 @@
+name: Laravel CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-and-build:
+    name: Test and build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: todo-app
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, dom, fileinfo, pdo_sqlite
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: todo-app/vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('todo-app/composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Prepare application
+        run: |
+          cp .env.example .env
+          php artisan key:generate --ansi
+
+      - name: Run Laravel tests
+        run: php artisan test
+
+      - name: Install frontend dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Build frontend assets
+        run: npm run build
