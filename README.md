@@ -110,7 +110,7 @@ Questa integrazione rende il progetto piu' adatto alla condivisione professional
 
 ## Live demo
 
-Live demo: in preparazione.
+Live demo: https://laravel-todo-list-awlf.onrender.com
 
 Il repository include una configurazione Render in `render.yaml` e un Dockerfile dedicato in `Dockerfile.render`.
 
@@ -127,7 +127,7 @@ Per pubblicare la demo su Render:
 1. Creare un nuovo Web Service da questo repository GitHub.
 2. Selezionare la configurazione Blueprint/Render YAML del repository.
 3. Avviare il deploy.
-4. Copiare l'URL pubblico generato da Render e sostituire `in preparazione` in questa sezione.
+4. Copiare l'URL pubblico generato da Render e aggiornare `APP_URL` in `render.yaml`.
 
 Nota: lo script di avvio genera automaticamente una `APP_KEY` Laravel valida se la variabile non e' presente o se il provider cloud ne genera una in formato non compatibile.
 
