@@ -53,5 +53,13 @@
             <h3 class="card__title">{{ $emptyTitle ?? 'Nessuna nota trovata' }}</h3>
             <p class="card__description">{{ $emptyDescription ?? 'Crea una nuova nota per iniziare.' }}</p>
         </div>
+
+        @isset($emptyActionUrl)
+            <div class="card__footer note-empty__actions">
+                <a href="{{ $emptyActionUrl }}" class="button button--primary">
+                    {{ $emptyActionLabel ?? 'Nuova nota' }}
+                </a>
+            </div>
+        @endisset
     </div>
 @endif

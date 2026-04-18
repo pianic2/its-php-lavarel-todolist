@@ -41,6 +41,8 @@
                 'done' => 'Completa una nota per ritrovarla qui.',
                 default => 'Crea una nota: il sistema continuerà a funzionare anche senza liste associate.',
             },
+            'emptyActionUrl' => route('lists.tasks.create', $list),
+            'emptyActionLabel' => 'Crea una nota',
         ])
     </section>
 @endsection

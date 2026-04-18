@@ -17,13 +17,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-
         // Create sample lists and tasks for local development
         $personal = TaskList::create([
             'name' => 'Personal',
@@ -35,7 +28,20 @@ class DatabaseSeeder extends Seeder
             'description' => 'Work related tasks',
         ]);
 
+        $shopping = TaskList::create([
+            'name' => 'Shopping',
+            'description' => 'Shopping related tasks',
+        ]);
+
+
+        $project = TaskList::create([
+            'name' => 'Project',
+            'description' => 'Project related tasks',
+        ]);
+
         Task::factory()->count(3)->forList($personal->id)->create();
         Task::factory()->count(4)->forList($work->id)->create();
+        Task::factory()->count(8)->forList($shopping->id)->create();
+        Task::factory()->count(5)->forList($project->id)->create();
     }
 }

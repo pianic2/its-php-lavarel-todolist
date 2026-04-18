@@ -33,6 +33,8 @@
                 'done' => 'Completa una nota per ritrovarla qui.',
                 default => 'Crea una nota dentro questa lista.',
             },
+            'emptyActionUrl' => route('lists.tasks.create', $list),
+            'emptyActionLabel' => 'Crea una nota',
         ])
     </section>
 @endsection

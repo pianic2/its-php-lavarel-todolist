@@ -704,6 +704,10 @@ body {
   max-width: 60ch;
 }
 
+.note-empty__actions {
+  justify-content: flex-start;
+}
+
 .sidebar-item .badge {
   flex-shrink: 0;
 }
