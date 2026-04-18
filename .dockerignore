@@ -1,0 +1,16 @@
+.git
+.github
+codex
+node_modules
+todo-app/node_modules
+vendor
+todo-app/vendor
+.env
+todo-app/.env
+todo-app/database/*.sqlite*
+todo-app/bootstrap/cache/*.php
+todo-app/public/build
+todo-app/storage/logs/*.log
+todo-app/storage/framework/cache/data/*
+todo-app/storage/framework/sessions/*
+todo-app/storage/framework/views/*

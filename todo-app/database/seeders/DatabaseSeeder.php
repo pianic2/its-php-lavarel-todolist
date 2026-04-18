@@ -47,13 +47,22 @@ class DatabaseSeeder extends Seeder
             $tasks = $listData['tasks'];
             unset($listData['tasks']);
 
-            $list = TaskList::create($listData);
+            $list = TaskList::updateOrCreate(
+                ['name' => $listData['name']],
+                ['description' => $listData['description']]
+            );
 
             foreach ($tasks as $taskData) {
-                Task::create([
-                    ...$taskData,
-                    'list_id' => $list->id,
-                ]);
+                Task::updateOrCreate(
+                    [
+                        'list_id' => $list->id,
+                        'title' => $taskData['title'],
+                    ],
+                    [
+                        'description' => $taskData['description'],
+                        'is_completed' => $taskData['is_completed'],
+                    ]
+                );
             }
         }
     }

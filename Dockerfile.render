@@ -1,0 +1,46 @@
+FROM composer:2 AS composer_deps
+
+WORKDIR /app
+
+COPY todo-app/composer.json todo-app/composer.lock ./
+RUN composer install --no-dev --no-interaction --prefer-dist --no-progress --optimize-autoloader --no-scripts
+
+
+FROM node:22-alpine AS frontend
+
+WORKDIR /app
+
+COPY todo-app/package.json todo-app/package-lock.json ./
+RUN npm ci --ignore-scripts
+
+COPY todo-app ./
+RUN npm run build
+
+
+FROM composer:2
+
+WORKDIR /var/www/html
+
+COPY todo-app ./
+COPY --from=composer_deps /app/vendor ./vendor
+COPY --from=frontend /app/public/build ./public/build
+COPY deploy/start-render.sh /usr/local/bin/start-render
+
+RUN chmod +x /usr/local/bin/start-render \
+    && mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache database \
+    && touch database/database.sqlite \
+    && rm -f bootstrap/cache/*.php \
+    && chown -R www-data:www-data storage bootstrap/cache database
+
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+ENV DB_CONNECTION=sqlite
+ENV DB_DATABASE=/var/www/html/database/database.sqlite
+ENV LOG_CHANNEL=stderr
+ENV SESSION_DRIVER=database
+ENV CACHE_STORE=database
+ENV QUEUE_CONNECTION=sync
+
+EXPOSE 10000
+
+CMD ["start-render"]

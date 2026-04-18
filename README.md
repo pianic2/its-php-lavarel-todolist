@@ -108,6 +108,27 @@ La workflow viene eseguita su ogni `push` e `pull_request` verso `main` e verifi
 
 Questa integrazione rende il progetto piu' adatto alla condivisione professionale, perche' ogni modifica pubblicata passa da controlli automatici riproducibili.
 
+## Live demo
+
+Live demo: in preparazione.
+
+Il repository include una configurazione Render in `render.yaml` e un Dockerfile dedicato in `Dockerfile.render`.
+
+La demo live esegue automaticamente:
+
+- installazione dipendenze PHP in container;
+- build degli asset Vite;
+- migration Laravel;
+- seed dei dati demo;
+- avvio dell'applicazione su porta cloud.
+
+Per pubblicare la demo su Render:
+
+1. Creare un nuovo Web Service da questo repository GitHub.
+2. Selezionare la configurazione Blueprint/Render YAML del repository.
+3. Avviare il deploy.
+4. Copiare l'URL pubblico generato da Render e sostituire `in preparazione` in questa sezione.
+
 ## Struttura del repository
 
 ```text
