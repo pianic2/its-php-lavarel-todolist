@@ -36,6 +36,47 @@ class TaskListOwnershipTest extends TestCase
         ]);
     }
 
+    public function test_task_store_requires_title(): void
+    {
+        $list = TaskList::factory()->create();
+
+        $this->from(route('lists.tasks.create', $list))
+            ->post(route('lists.tasks.store', $list), [
+                'title' => '',
+                'description' => 'Senza titolo non passa.',
+                'is_completed' => '0',
+            ])
+            ->assertRedirect(route('lists.tasks.create', $list))
+            ->assertSessionHasErrors('title');
+
+        $this->assertDatabaseMissing('tasks', [
+            'description' => 'Senza titolo non passa.',
+            'list_id' => $list->id,
+        ]);
+    }
+
+    public function test_task_update_requires_title(): void
+    {
+        $list = TaskList::factory()->create();
+        $task = Task::factory()->forList($list->id)->create([
+            'title' => 'Titolo originale',
+        ]);
+
+        $this->from(route('lists.tasks.edit', [$list, $task]))
+            ->put(route('lists.tasks.update', [$list, $task]), [
+                'title' => '',
+                'description' => 'Tentativo non valido.',
+                'is_completed' => '1',
+            ])
+            ->assertRedirect(route('lists.tasks.edit', [$list, $task]))
+            ->assertSessionHasErrors('title');
+
+        $this->assertDatabaseHas('tasks', [
+            'id' => $task->id,
+            'title' => 'Titolo originale',
+        ]);
+    }
+
     public function test_task_cannot_be_served_from_another_list_route(): void
     {
         $firstList = TaskList::factory()->create();

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use App\Models\TaskList;
 use Illuminate\Http\Request;
@@ -45,13 +47,9 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, TaskList $list)
+    public function store(StoreTaskRequest $request, TaskList $list)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'is_completed' => 'nullable|boolean',
-        ]);
+        $data = $request->validated();
 
         $list->tasks()->create($data + ['is_completed' => $request->boolean('is_completed')]);
 
@@ -79,13 +77,9 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TaskList $list, Task $task)
+    public function update(UpdateTaskRequest $request, TaskList $list, Task $task)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'is_completed' => 'nullable|boolean',
-        ]);
+        $data = $request->validated();
 
         $task->update($data + ['is_completed' => $request->boolean('is_completed')]);
 
