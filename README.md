@@ -129,6 +129,8 @@ Per pubblicare la demo su Render:
 3. Avviare il deploy.
 4. Copiare l'URL pubblico generato da Render e sostituire `in preparazione` in questa sezione.
 
+Nota: lo script di avvio genera automaticamente una `APP_KEY` Laravel valida se la variabile non e' presente o se il provider cloud ne genera una in formato non compatibile.
+
 ## Struttura del repository
 
 ```text
