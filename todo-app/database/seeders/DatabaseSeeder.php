@@ -2,46 +2,59 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\TaskList;
 use App\Models\Task;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\TaskList;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        // Create sample lists and tasks for local development
-        $personal = TaskList::create([
-            'name' => 'Personal',
-            'description' => 'Personal tasks',
-        ]);
+        $lists = [
+            [
+                'name' => 'Portfolio launch',
+                'description' => 'Tasks used to prepare the project for public sharing.',
+                'tasks' => [
+                    ['title' => 'Write project README', 'description' => 'Document stack, setup, routes, tests and future improvements.', 'is_completed' => true],
+                    ['title' => 'Add GitHub Actions pipeline', 'description' => 'Run Laravel tests and Vite production build on every push.', 'is_completed' => true],
+                    ['title' => 'Publish repository link on LinkedIn', 'description' => 'Add a short technical summary and GitHub URL.', 'is_completed' => false],
+                ],
+            ],
+            [
+                'name' => 'Client work',
+                'description' => 'Example operational list for a small freelance workflow.',
+                'tasks' => [
+                    ['title' => 'Collect feature requirements', 'description' => 'Clarify CRUD flows, validation rules and delivery scope.', 'is_completed' => true],
+                    ['title' => 'Prepare first demo', 'description' => 'Show the Blade interface with seeded data.', 'is_completed' => false],
+                    ['title' => 'Review feedback', 'description' => 'Turn client notes into implementation tasks.', 'is_completed' => false],
+                ],
+            ],
+            [
+                'name' => 'Learning roadmap',
+                'description' => 'Next steps for improving the Laravel project.',
+                'tasks' => [
+                    ['title' => 'Add authentication', 'description' => 'Protect lists by user account.', 'is_completed' => false],
+                    ['title' => 'Expose JSON API endpoints', 'description' => 'Prepare the backend for a future frontend client.', 'is_completed' => false],
+                    ['title' => 'Deploy a live demo', 'description' => 'Choose a hosting provider and configure production environment variables.', 'is_completed' => false],
+                ],
+            ],
+        ];
 
-        $work = TaskList::create([
-            'name' => 'Work',
-            'description' => 'Work related tasks',
-        ]);
+        foreach ($lists as $listData) {
+            $tasks = $listData['tasks'];
+            unset($listData['tasks']);
 
-        $shopping = TaskList::create([
-            'name' => 'Shopping',
-            'description' => 'Shopping related tasks',
-        ]);
+            $list = TaskList::create($listData);
 
-
-        $project = TaskList::create([
-            'name' => 'Project',
-            'description' => 'Project related tasks',
-        ]);
-
-        Task::factory()->count(3)->forList($personal->id)->create();
-        Task::factory()->count(4)->forList($work->id)->create();
-        Task::factory()->count(8)->forList($shopping->id)->create();
-        Task::factory()->count(5)->forList($project->id)->create();
+            foreach ($tasks as $taskData) {
+                Task::create([
+                    ...$taskData,
+                    'list_id' => $list->id,
+                ]);
+            }
+        }
     }
 }
