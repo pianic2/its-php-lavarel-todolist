@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Task;
 use App\Models\TaskList;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create or get a default user to own the seeded lists
-        $defaultUser = \App\Models\User::first() ?? \App\Models\User::factory()->create([
-            'name' => 'Demo User',
-            'email' => 'demo@example.com',
-        ]);
+        // Create or get a default user to own the seeded lists.
+        $defaultUser = User::firstOrCreate(
+            ['email' => 'demo@example.com'],
+            [
+                'name' => 'Demo User',
+                'password' => 'password',
+                'email_verified_at' => now(),
+            ],
+        );
 
         $lists = [
             [
