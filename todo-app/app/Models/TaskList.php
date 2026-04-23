@@ -20,4 +20,12 @@ class TaskList extends Model
     {
         return $this->hasMany(Task::class, 'list_id');
     }
+
+    /**
+     * The users that belong to the list.
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'list_user', 'list_id', 'user_id')->withTimestamps();
+    }
 }

@@ -39,6 +39,15 @@ composer require laravel/boost --dev
 php artisan boost:install
 ```
 
+## Demo credentials
+
+For convenience the seeder creates (or reuses) a demo user. Use these credentials to login on local instances:
+
+- Email: `demo@example.com`
+- Password: `password`
+
+You can also copy the demo credentials into your environment by updating `.env` from `.env.example`.
+
 Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
 
 ## Contributing

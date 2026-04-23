@@ -13,6 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Create or get a default user to own the seeded lists
+        $defaultUser = \App\Models\User::first() ?? \App\Models\User::factory()->create([
+            'name' => 'Demo User',
+            'email' => 'demo@example.com',
+        ]);
+
         $lists = [
             [
                 'name' => 'Portfolio launch',
@@ -51,6 +57,11 @@ class DatabaseSeeder extends Seeder
                 ['name' => $listData['name']],
                 ['description' => $listData['description']]
             );
+
+            // Attach default user to the list if not already attached
+            if (! $list->users()->where('users.id', $defaultUser->id)->exists()) {
+                $list->users()->attach($defaultUser->id);
+            }
 
             foreach ($tasks as $taskData) {
                 Task::updateOrCreate(

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Task;
 use App\Models\TaskList;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -13,7 +14,11 @@ class TaskListOwnershipTest extends TestCase
 
     public function test_task_create_page_is_served_under_list(): void
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $list = TaskList::factory()->create();
+        $list->users()->attach($user->id);
 
         $this->get(route('lists.tasks.create', $list))
             ->assertOk()
@@ -22,7 +27,11 @@ class TaskListOwnershipTest extends TestCase
 
     public function test_task_is_created_inside_list_route(): void
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $list = TaskList::factory()->create();
+        $list->users()->attach($user->id);
 
         $this->post(route('lists.tasks.store', $list), [
             'title' => 'Nota della lista',
@@ -38,7 +47,11 @@ class TaskListOwnershipTest extends TestCase
 
     public function test_task_store_requires_title(): void
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $list = TaskList::factory()->create();
+        $list->users()->attach($user->id);
 
         $this->from(route('lists.tasks.create', $list))
             ->post(route('lists.tasks.store', $list), [
@@ -57,7 +70,12 @@ class TaskListOwnershipTest extends TestCase
 
     public function test_task_update_requires_title(): void
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $list = TaskList::factory()->create();
+        $list->users()->attach($user->id);
+
         $task = Task::factory()->forList($list->id)->create([
             'title' => 'Titolo originale',
         ]);
@@ -79,8 +97,13 @@ class TaskListOwnershipTest extends TestCase
 
     public function test_task_cannot_be_served_from_another_list_route(): void
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $firstList = TaskList::factory()->create();
         $secondList = TaskList::factory()->create();
+        $firstList->users()->attach($user->id);
+
         $task = Task::factory()->forList($firstList->id)->create();
 
         $this->get(route('lists.tasks.show', [$secondList, $task]))
@@ -89,7 +112,12 @@ class TaskListOwnershipTest extends TestCase
 
     public function test_deleting_list_deletes_its_tasks(): void
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $list = TaskList::factory()->create();
+        $list->users()->attach($user->id);
+
         $task = Task::factory()->forList($list->id)->create();
 
         $this->delete(route('lists.destroy', $list))->assertRedirect(route('lists.index'));
@@ -99,7 +127,11 @@ class TaskListOwnershipTest extends TestCase
 
     public function test_list_show_filters_open_tasks(): void
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $list = TaskList::factory()->create();
+        $list->users()->attach($user->id);
         Task::factory()->forList($list->id)->create([
             'title' => 'Nota ancora aperta',
             'is_completed' => false,
@@ -117,7 +149,11 @@ class TaskListOwnershipTest extends TestCase
 
     public function test_list_show_filters_done_tasks(): void
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $list = TaskList::factory()->create();
+        $list->users()->attach($user->id);
         Task::factory()->forList($list->id)->create([
             'title' => 'Nota ancora aperta',
             'is_completed' => false,
@@ -135,7 +171,11 @@ class TaskListOwnershipTest extends TestCase
 
     public function test_invalid_list_filter_falls_back_to_all_tasks(): void
     {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $list = TaskList::factory()->create();
+        $list->users()->attach($user->id);
         Task::factory()->forList($list->id)->create([
             'title' => 'Nota ancora aperta',
             'is_completed' => false,

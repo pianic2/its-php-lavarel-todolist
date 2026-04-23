@@ -18,6 +18,14 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
+     * The lists that belong to the user.
+     */
+    public function lists()
+    {
+        return $this->belongsToMany(TaskList::class, 'list_user', 'user_id', 'list_id')->withTimestamps();
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

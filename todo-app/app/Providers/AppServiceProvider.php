@@ -22,7 +22,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer('layouts.app', function ($view): void {
-            $view->with('sidebarLists', TaskList::withCount('tasks')->orderBy('name')->get());
+            $user = auth()->user();
+
+            if ($user) {
+                $lists = $user->lists()->withCount('tasks')->orderBy('name')->get();
+            } else {
+                $lists = TaskList::withCount('tasks')->orderBy('name')->get();
+            }
+
+            $view->with('sidebarLists', $lists);
         });
     }
 }
