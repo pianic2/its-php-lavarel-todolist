@@ -11,8 +11,6 @@ services:
         value: production
       - key: APP_DEBUG
         value: false
-      - key: DEMO_READ_ONLY
-        value: false
       - key: APP_URL
         value: https://laravel-todo-list-awlf.onrender.com
       - key: DB_CONNECTION

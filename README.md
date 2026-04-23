@@ -4,7 +4,7 @@
 
 Applicazione Todo List sviluppata in Laravel con UI Blade server-rendered, autenticazione Fortify, condivisione liste tra utenti e notifiche email per gli inviti.
 
-Il progetto nasce come esercizio completo di sviluppo backend/frontend in PHP e oggi include CRUD, validazione, routing annidato, autenticazione, collaborazione multiutente, demo pubblica read-only e test automatici.
+Il progetto nasce come esercizio completo di sviluppo backend/frontend in PHP e oggi include CRUD, validazione, routing annidato, autenticazione, collaborazione multiutente, demo pubblica e test automatici.
 
 ## Obiettivo del progetto
 
@@ -124,7 +124,6 @@ La demo live esegue automaticamente:
 - build degli asset Vite;
 - migration Laravel;
 - seed dei dati demo;
-- blocco delle scritture pubbliche in modalità sola lettura;
 - avvio dell'applicazione su porta cloud.
 
 Credenziali demo locali:
@@ -132,7 +131,7 @@ Credenziali demo locali:
 - email: `demo@example.com`
 - password: `password`
 
-Nota: la demo pubblica è configurata in sola lettura tramite `DEMO_READ_ONLY=true`, così i visitatori possono navigare il progetto senza modificare o cancellare dati.
+Nota: la demo pubblica consente modifiche usando le credenziali demo.
 
 ## CI/CD
 
@@ -417,10 +416,6 @@ La relazione tra utenti e liste usa una pivot dedicata. Questo permette ownershi
 ### UI server-rendered
 
 Il progetto usa Blade invece di una SPA JavaScript. La scelta è adatta a un gestionale semplice, riduce complessità frontend e valorizza le funzionalità native di Laravel.
-
-### Demo pubblica read-only
-
-La demo pubblica è bloccata in scrittura per evitare modifiche non autorizzate e mantenere i dati dimostrativi stabili.
 
 ## Evoluzioni possibili
 
