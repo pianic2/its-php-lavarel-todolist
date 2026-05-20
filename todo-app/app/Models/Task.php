@@ -6,15 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TaskList;
 
+#[Fillable(['title', 'description', 'is_completed', 'list_id'])]
 class Task extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'title',
-        'description',
-        'is_completed',
-        'list_id',
-    ];
 
     protected $casts = [
         'is_completed' => 'boolean',
